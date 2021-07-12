@@ -1,4 +1,5 @@
 import '../sass/main.scss';
+import Swal from 'sweetalert2'
 
 const refs = {
     choosedDate: document.querySelector('#date-selector'),
@@ -35,19 +36,19 @@ function isDateChoosed() {
 
 
     function startCounter() {
-        setInterval(() => {
+        const intervalId = setInterval(() => {
             time -= 1000;
             targetTime = convertMs(time);
             refs.days.textContent = targetTime.days;
             refs.hours.textContent = targetTime.hours;
             refs.minutes.textContent = targetTime.minutes;
             refs.seconds.textContent = targetTime.seconds;
-            if (time === 0) {
-                return
+            if (time < 0) {
+                clearInterval(intervalId);
             }
         }, 1000);
         refs.start.removeEventListener('click', startCounter)
-        refs.start.style.cursor = 'not-allowed';
+        refs.start.disabled = true;
     }
     refs.choosedDate.style.display = 'none';
 }
